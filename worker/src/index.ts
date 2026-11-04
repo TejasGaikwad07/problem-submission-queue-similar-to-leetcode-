@@ -1,40 +1,46 @@
-import { createClient } from "redis";
-const client = createClient();
+import {
+    config,
+    createDockerExecutor,
+    createRedisQueue,
+    isDockerAvailable,
+    prisma,
+    processSubmission,
+} from "@judge/shared";
 
-async function processSubmission(submission: string) {
-    const { problemId, code, language } = JSON.parse(submission);
-
-    console.log(`Processing submission for problemId ${problemId}...`);
-    console.log(`Code: ${code}`);
-    console.log(`Language: ${language}`);
-    // Here you would add your actual processing logic
-
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log(`Finished processing submission for problemId ${problemId}.`);
-}
-
-async function startWorker() {
-
-    try {
-        await client.connect();
-        console.log("Worker connected to Redis.");
-
-        // Main loop
-        while (true) {
-            try {
-                const submission = await client.brPop("problems", 0);
-                // @ts-ignore
-                await processSubmission(submission.element);
-            } catch (error) {
-                console.error("Error processing submission:", error);
-                // Implement your error handling logic here. For example, you might want to push
-                // the submission back onto the queue or log the error to a file.
-            }
-        }
-    } catch (error) {
-        console.error("Failed to connect to Redis", error);
+async function main() {
+    if (!isDockerAvailable()) {
+        throw new Error("Docker is not available. Start Docker Desktop, then run `npm run judge:pull-images`.");
     }
+    const queue = await createRedisQueue(config.redisUrl);
+    const executor = createDockerExecutor();
+    console.log("Worker connected to Redis; waiting for submissions.");
+
+    let stopping = false;
+    const stop = () => {
+        stopping = true;
+        console.log("Stopping after the current submission...");
+    };
+    process.on("SIGINT", stop);
+    process.on("SIGTERM", stop);
+
+    // One submission at a time; the 5s block timeout lets the loop notice a stop request.
+    while (!stopping) {
+        try {
+            const id = await queue.dequeue(5);
+            if (!id) continue;
+            console.log(`Judging ${id}`);
+            await processSubmission(prisma, executor, id);
+            console.log(`Finished ${id}`);
+        } catch (e) {
+            console.error("Worker loop error", e);
+            await new Promise((r) => setTimeout(r, 1000));
+        }
+    }
+    await queue.close();
+    await prisma.$disconnect();
 }
 
-startWorker();
+main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+});
