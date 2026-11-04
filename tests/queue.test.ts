@@ -2,6 +2,9 @@ import { createRedisQueue } from "@judge/shared";
 
 // Needs a Redis; set REDIS_URL_TEST to run it (CI does). Skipped, with a message, otherwise.
 const url = process.env.REDIS_URL_TEST;
+if (!url && process.env.REQUIRE_DOCKER) {
+    throw new Error("REQUIRE_DOCKER is set (CI) but REDIS_URL_TEST is not");
+}
 if (!url) {
     console.warn("\n[queue.test.ts] SKIPPED: REDIS_URL_TEST is not set, so the Redis queue was not tested.\n");
 }

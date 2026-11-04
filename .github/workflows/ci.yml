@@ -34,6 +34,8 @@ jobs:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/judge_test
       DATABASE_URL_TEST: postgresql://postgres:postgres@localhost:5432/judge_test
       REDIS_URL_TEST: redis://localhost:6379
+      # fail (instead of skip) if Docker is unavailable, so a green build means the sandbox tests really ran
+      REQUIRE_DOCKER: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

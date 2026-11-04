@@ -16,6 +16,10 @@ import { makeProblem, resetDb } from "./helpers";
 
 // These tests run real code in real containers. Without a Docker engine they are skipped (not failed).
 const dockerOk = isDockerAvailable();
+// CI sets REQUIRE_DOCKER=1 so that a missing Docker fails the build instead of silently skipping these tests.
+if (!dockerOk && process.env.REQUIRE_DOCKER) {
+    throw new Error("REQUIRE_DOCKER is set but Docker is not available");
+}
 if (!dockerOk) {
     console.warn(
         "\n[docker.test.ts] SKIPPED: Docker is not available (is Docker Desktop running?). " +
