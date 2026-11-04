@@ -1,0 +1,15 @@
+{
+  "id": "max-subarray",
+  "title": "Maximum Subarray",
+  "difficulty": "Medium",
+  "timeLimitMs": 2000,
+  "statement": "Find the largest sum of a non-empty contiguous subarray.\n\nInput:\n- Line 1: an integer n\n- Line 2: n space-separated integers\n\nOutput: the maximum subarray sum.",
+  "tests": [
+    { "input": "9\n-2 1 -3 4 -1 2 1 -5 4\n", "output": "6\n", "hidden": false },
+    { "input": "1\n1\n", "output": "1\n", "hidden": false },
+    { "input": "5\n5 4 -1 7 8\n", "output": "23\n", "hidden": true },
+    { "input": "3\n-3 -2 -5\n", "output": "-2\n", "hidden": true },
+    { "input": "6\n2 -1 2 -1 2 -1\n", "output": "4\n", "hidden": true },
+    { "input": "4\n-1 3 -2 3\n", "output": "4\n", "hidden": true }
+  ]
+}

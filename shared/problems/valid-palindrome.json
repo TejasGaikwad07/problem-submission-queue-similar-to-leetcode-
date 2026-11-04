@@ -1,0 +1,15 @@
+{
+  "id": "valid-palindrome",
+  "title": "Valid Palindrome",
+  "difficulty": "Easy",
+  "timeLimitMs": 2000,
+  "statement": "Decide whether a phrase is a palindrome after ignoring everything except letters and digits, and ignoring letter case.\n\nInput: a single line of printable ASCII characters.\n\nOutput: `true` if the phrase is a palindrome under those rules, otherwise `false`.",
+  "tests": [
+    { "input": "A man, a plan, a canal: Panama\n", "output": "true\n", "hidden": false },
+    { "input": "race a car\n", "output": "false\n", "hidden": false },
+    { "input": "0P\n", "output": "false\n", "hidden": true },
+    { "input": "Was it a car or a cat I saw?\n", "output": "true\n", "hidden": true },
+    { "input": "No lemon, no melon\n", "output": "true\n", "hidden": true },
+    { "input": "ab\n", "output": "false\n", "hidden": true }
+  ]
+}

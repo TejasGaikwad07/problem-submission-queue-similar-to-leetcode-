@@ -1,0 +1,15 @@
+{
+  "id": "reverse-string",
+  "title": "Reverse String",
+  "difficulty": "Easy",
+  "timeLimitMs": 2000,
+  "statement": "Read one line of text and print it reversed.\n\nInput: a single line of printable ASCII characters (it may contain spaces).\n\nOutput: the same line with its characters in reverse order.",
+  "tests": [
+    { "input": "hello\n", "output": "olleh\n", "hidden": false },
+    { "input": "Hello, World!\n", "output": "!dlroW ,olleH\n", "hidden": false },
+    { "input": "A\n", "output": "A\n", "hidden": true },
+    { "input": "racecar\n", "output": "racecar\n", "hidden": true },
+    { "input": "abc def\n", "output": "fed cba\n", "hidden": true },
+    { "input": "12345\n", "output": "54321\n", "hidden": true }
+  ]
+}
