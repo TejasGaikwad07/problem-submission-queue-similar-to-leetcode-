@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SubmissionStatus {
+  queued
+  running
+  done
+}
+
+enum Verdict {
+  Accepted
+  WrongAnswer
+  TimeLimitExceeded
+  RuntimeError
+  CompilationError
+}
+
+model Submission {
+  id         String           @id @default(uuid())
+  problemId  String
+  language   String
+  code       String
+  status     SubmissionStatus @default(queued)
+  verdict    Verdict?
+  failedTest Int?
+  detail     String?
+  createdAt  DateTime         @default(now())
+  startedAt  DateTime?
+  finishedAt DateTime?
+
+  @@index([status, createdAt])
+}
