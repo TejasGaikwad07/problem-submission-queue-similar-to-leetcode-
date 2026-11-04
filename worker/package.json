@@ -1,15 +1,13 @@
 {
   "name": "worker",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "Judge worker: pulls submissions from Redis and runs them in sandboxed Docker containers",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "redis": "^4.6.13"
+    "@judge/shared": "*"
   }
 }
