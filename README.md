@@ -129,7 +129,7 @@ GitHub Actions (`.github/workflows/ci.yml`) starts Postgres and Redis services, 
 - Compilation runs in a container too, but compiler output and diagnostics are returned to the user as they are (truncated).
 - The tmp and compile folders are on the host's temp directory and are deleted after judging; a hard crash can leave some behind.
 - Only 4 problems, and each test case is a stdin/stdout comparison (no special checkers, so problems must have a unique correct output).
-- The sandbox itself was developed on a machine where Docker Desktop could not run; the Docker-dependent tests were first run by CI. See the pull request for the CI result.
+- The Docker-dependent tests pass in CI on Linux. I also ran the whole stack end to end on Windows with Docker Desktop (compose, migrations, API, worker, real submissions with the expected verdicts, and the full test suite), but only on one machine and one Docker version (27.1.1); it has not been tried on macOS or other Windows setups.
 
 ## What was already here vs what I added
 
