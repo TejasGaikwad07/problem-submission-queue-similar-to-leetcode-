@@ -1,0 +1,22 @@
+# Development services only. The API and the worker run on the host with npm;
+# the worker starts the short-lived sandbox containers itself via the docker CLI.
+# These credentials are local development defaults, not secrets.
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: judge
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
